@@ -34,4 +34,5 @@ env CC=clang CFLAGS="-Ofast -march=native" LD=clang LDFLAGS="-Wl,-s" ./configure
 make install
 ```
 
+[![Travis CI](https://img.shields.io/travis/com/kei-g/wol?logo=travis&style=plastic)](https://www.travis-ci.com/github/kei-g/wol)
 [![License](https://img.shields.io/github/license/kei-g/wol?style=plastic)](https://opensource.org/licenses/BSD-3-Clause)

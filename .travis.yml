@@ -1,0 +1,4 @@
+language: c
+dist: focal
+script:
+  - env CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" ./configure && make
