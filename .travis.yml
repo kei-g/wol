@@ -1,8 +1,10 @@
 language: c
+notifications:
+  email: false
 dist: focal
 os:
   - freebsd
   - linux
   - osx
 script:
-  - env CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" ./configure && make
+  - ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" && make
