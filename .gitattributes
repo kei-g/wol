@@ -1,0 +1,5 @@
+compile linguist-detectable=false
+configure linguist-detectable=false
+depcomp linguist-detectable=false
+install-sh linguist-detectable=false
+missing linguist-detectable=false
