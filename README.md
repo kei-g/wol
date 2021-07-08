@@ -13,19 +13,19 @@ Wake-On-LAN client
 ### with clang
 
 ```shell
-env CC=clang LD=clang ./configure && make
+./configure CC=clang LD=clang && make
 ```
 
 ### without symbols for debug
 
 ```shell
-env CC=clang LD=clang LDFLAGS="-Wl,-s" ./configure && make
+./configure CC=clang LD=clang LDFLAGS="-Wl,-s" && make
 ```
 
 ### with optimizations
 
 ```shell
-env CC=clang CFLAGS="-Ofast -march=native" LD=clang LDFLAGS="-Wl,-s" ./configure && make
+./configure CC=clang CFLAGS="-Ofast -march=native" LD=clang LDFLAGS="-Wl,-s" && make
 ```
 
 ## How to install
