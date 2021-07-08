@@ -1,2 +1,9 @@
+**/*.log
 **/*.o
+**/.deps/
+**/Makefile
+**/autom4te.cache/
+**/config.h
+**/config.status
+**/stamp-h1
 **/wol
