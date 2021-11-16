@@ -3,7 +3,15 @@ FROM debian:latest
 ENV DEBCONF_NOWARNINGS yes
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install autoconf automake clang make -y
+RUN apt-get update && \
+	apt-get upgrade -y && \
+	apt-get dist-upgrade -y && \
+	apt-get autoremove --purge -y && \
+	apt-get install -y \
+		autoconf \
+		automake \
+		clang \
+		make
 
 COPY AUTHORS ./
 COPY COPYING ./
@@ -13,10 +21,14 @@ COPY config.h.in ./
 COPY configure.ac ./
 COPY wol.c ./
 
-RUN aclocal
-RUN autoheader
-RUN touch NEWS ChangeLog
-RUN automake -a -c
-RUN autoconf
-RUN ./configure --disable-dependency-tracking CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
-RUN make
+RUN aclocal && \
+	autoheader && \
+	touch NEWS ChangeLog && \
+	automake -a -c && \
+	autoconf && \
+	./configure --disable-dependency-tracking \
+		CC=clang \
+		CFLAGS="-Ofast -Wall -Werror -march=native" \
+		LD=clang \
+		LDFLAGS="-Wl,-s" && \
+	make
