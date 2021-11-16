@@ -1,0 +1,14 @@
+name: build
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-on-ubuntu:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: configure
+        run: ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
+      - name: make
+        run: make

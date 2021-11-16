@@ -1,7 +1,7 @@
+dist: focal
 language: c
 notifications:
   email: false
-dist: focal
 os:
   - freebsd
   - linux
