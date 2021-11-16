@@ -1,5 +1,8 @@
 FROM debian:latest
 
+ENV DEBCONF_NOWARNINGS yes
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update && apt-get upgrade -y && apt-get install autoconf automake clang make -y
 
 COPY AUTHORS ./
