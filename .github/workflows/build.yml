@@ -8,7 +8,19 @@ jobs:
     name: Build
     steps:
       - uses: actions/checkout@v2
-      - name: configure
+      - name: Install dependencies
+        run: sudo apt-get install autoconf automake -y
+      - name: Run aclocal
+        run: aclocal
+      - name: Generate empty files
+        run: touch ChangeLog NEWS
+      - name: Rename README
+        run: mv README.md README
+      - name: Run automake
+        run: automake -a -c
+      - name: Run autoconf
+        run: autoconf
+      - name: Configure
         run: ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
-      - name: make
+      - name: Run make
         run: make
