@@ -8,6 +8,8 @@ jobs:
     name: Build
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
       - name: Install dependencies
         run: sudo apt-get install autoconf automake -y
       - name: Run aclocal
