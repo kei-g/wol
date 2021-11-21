@@ -23,7 +23,8 @@ COPY wol.c ./
 
 RUN aclocal && \
 	autoheader && \
-	touch NEWS ChangeLog && \
+	touch ChangeLog NEWS && \
+	mv README.md README && \
 	automake -a -c && \
 	autoconf && \
 	./configure --disable-dependency-tracking \
