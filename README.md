@@ -8,13 +8,13 @@ Wake-On-LAN client
 
 ### Install packages to build
 
-To build with clang, on linux :penguin:;
+To build with clang, on linux :penguin:,
 
 ```shell
 apt-get install autoconf automake clang make
 ```
 
-or, to build with gcc, on linux :penguin:;
+or, to build with gcc, on linux :penguin:,
 
 ```shell
 apt-get install autoconf automake gcc make
