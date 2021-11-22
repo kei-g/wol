@@ -19,4 +19,5 @@ script:
   - autoheader
   - automake -a -c
   - autoconf
-  - ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" && make
+  - ./configure --disable-dependency-tracking CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
+  - make

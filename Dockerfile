@@ -27,7 +27,7 @@ RUN aclocal && \
 	autoconf && \
 	./configure --disable-dependency-tracking \
 		CC=clang \
-		CFLAGS="-Ofast -Wall -Werror -march=native" \
+		CFLAGS="-Oz -Wall -Werror -march=native" \
 		LD=clang \
 		LDFLAGS="-Wl,-s" && \
 	make

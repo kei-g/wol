@@ -32,25 +32,25 @@ autoconf
 ### with default cc
 
 ```shell
-./configure && make
+./configure --disable-dependency-tracking && make
 ```
 
 ### with clang
 
 ```shell
-./configure CC=clang LD=clang && make
+./configure --disable-dependency-tracking CC=clang LD=clang && make
 ```
 
 ### without symbols for debug
 
 ```shell
-./configure CC=clang LD=clang LDFLAGS="-Wl,-s" && make
+./configure --disable-dependency-tracking CC=clang LD=clang LDFLAGS="-Wl,-s" && make
 ```
 
 ### with optimizations
 
 ```shell
-./configure CC=clang CFLAGS="-Ofast -march=native" LD=clang LDFLAGS="-Wl,-s" && make
+./configure --disable-dependency-tracking CC=clang CFLAGS="-Oz -march=native" LD=clang LDFLAGS="-Wl,-s" && make
 ```
 
 ## How to install

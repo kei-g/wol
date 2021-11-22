@@ -21,6 +21,6 @@ jobs:
       - name: Run autoconf
         run: autoconf
       - name: Configure
-        run: ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
+        run: ./configure --disable-dependency-tracking CC=clang CFLAGS="-Oz -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
       - name: Run make
         run: make
