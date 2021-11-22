@@ -11,7 +11,7 @@ jobs:
         with:
           fetch-depth: 1
       - name: Install dependencies
-        run: sudo apt-get install autoconf automake -y
+        run: sudo apt-get install automake -y
       - name: Run aclocal
         run: aclocal
       - name: Generate empty files

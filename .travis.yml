@@ -1,13 +1,10 @@
 addons:
   apt:
     packages:
-      - autoconf
       - automake
   homebrew:
-    - autoconf
     - automake
   pkg:
-    - autoconf
     - automake
 dist: focal
 language: c

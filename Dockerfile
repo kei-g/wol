@@ -8,7 +8,6 @@ RUN apt-get update && \
 	apt-get dist-upgrade -y && \
 	apt-get autoremove --purge -y && \
 	apt-get install -y \
-		autoconf \
 		automake \
 		clang \
 		make

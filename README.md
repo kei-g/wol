@@ -11,13 +11,13 @@ Wake-On-LAN client
 To build with clang, on linux :penguin:,
 
 ```shell
-apt-get install autoconf automake clang make
+apt-get install automake clang make
 ```
 
 or, to build with gcc, on linux :penguin:,
 
 ```shell
-apt-get install autoconf automake gcc make
+apt-get install automake gcc make
 ```
 
 ### Pre-configure
