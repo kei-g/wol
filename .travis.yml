@@ -14,9 +14,4 @@ os:
   - linux
   - osx
 script:
-  - aclocal
-  - autoheader
-  - automake -a -c
-  - autoconf
-  - ./configure --disable-dependency-tracking CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s"
-  - make
+  - aclocal && autoheader && automake -a -c && autoconf && ./configure --disable-dependency-tracking CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" && make
