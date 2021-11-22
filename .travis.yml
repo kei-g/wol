@@ -3,9 +3,11 @@ addons:
     packages:
       - automake
   homebrew:
-    - automake
+    packages:
+      - automake
   pkg:
-    - automake
+    packages:
+      - automake
 language: c
 notifications:
   email: false
