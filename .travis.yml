@@ -16,8 +16,7 @@ os:
   - osx
 script:
   - aclocal
-  - touch ChangeLog NEWS
-  - mv README.md README
+  - autoheader
   - automake -a -c
   - autoconf
   - ./configure CC=clang CFLAGS="-Ofast -Wall -Werror -march=native" LD=clang LDFLAGS="-Wl,-s" && make

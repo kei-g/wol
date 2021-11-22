@@ -14,16 +14,15 @@ RUN apt-get update && \
 
 COPY AUTHORS ./
 COPY COPYING ./
+COPY ChangeLog ./
 COPY Makefile.am ./
-COPY README.md ./README
-COPY config.h.in ./
+COPY NEWS ./
+COPY README ./
 COPY configure.ac ./
 COPY wol.c ./
 
 RUN aclocal && \
 	autoheader && \
-	touch ChangeLog NEWS && \
-	mv README.md README && \
 	automake -a -c && \
 	autoconf && \
 	./configure --disable-dependency-tracking \

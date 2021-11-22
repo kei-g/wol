@@ -24,8 +24,7 @@ apt-get install automake gcc make
 
 ```shell
 aclocal
-touch NEWS ChangeLog
-mv README.md README
+autoheader
 automake -a -c
 autoconf
 ```

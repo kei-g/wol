@@ -14,10 +14,8 @@ jobs:
         run: sudo apt-get install automake -y
       - name: Run aclocal
         run: aclocal
-      - name: Generate empty files
-        run: touch ChangeLog NEWS
-      - name: Rename README
-        run: mv README.md README
+      - name: Run autoheader
+        run: autoheader
       - name: Run automake
         run: automake -a -c
       - name: Run autoconf
