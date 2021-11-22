@@ -6,7 +6,6 @@ addons:
     - automake
   pkg:
     - automake
-dist: focal
 language: c
 notifications:
   email: false
