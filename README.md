@@ -1,6 +1,6 @@
 # wol [![license][license-image]][license-url]
 
-[![github][github-test-image]][github-url] [![travis][travis-image]][travis-url]
+[![GitHub CI (Build)][github-build-image]][github-build-url] [![travis][travis-image]][travis-url]
 
 Wake-On-LAN client
 
@@ -65,7 +65,8 @@ make install
 wol 12:34:56:78:9a:bc
 ```
 
-[github-test-image]:https://img.shields.io/github/workflow/status/kei-g/wol/build/main?label=build&logo=github
+[github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
+[github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
 [github-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
