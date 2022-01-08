@@ -10,6 +10,7 @@ RUN apt-get update && \
 	apt-get install -y \
 		automake \
 		clang \
+		lld \
 		make
 
 COPY AUTHORS ./
@@ -27,7 +28,7 @@ RUN aclocal && \
 	autoconf && \
 	./configure --disable-dependency-tracking \
 		CC=clang \
-		CFLAGS="-Oz -Wall -Werror -march=native" \
+		CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" \
 		LD=clang \
-		LDFLAGS="-Wl,-s" && \
+		LDFLAGS="-Wl,-s -fuse-ld=lld" && \
 	make
