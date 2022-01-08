@@ -4,13 +4,14 @@ ENV DEBCONF_NOWARNINGS yes
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-	apt-get upgrade -y && \
-	apt-get dist-upgrade -y && \
-	apt-get autoremove --purge -y && \
+	apt-get install -y \
+		gnupg \
+		lsb-release \
+		software-properties-common \
+		wget && \
+	bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && \
 	apt-get install -y \
 		automake \
-		clang \
-		lld \
 		make
 
 COPY AUTHORS ./
@@ -27,8 +28,8 @@ RUN aclocal && \
 	automake -a -c && \
 	autoconf && \
 	./configure --disable-dependency-tracking \
-		CC=clang \
+		CC=clang-13 \
 		CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" \
-		LD=clang \
+		LD=clang-13 \
 		LDFLAGS="-Wl,-s -fuse-ld=lld" && \
 	make
