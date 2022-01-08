@@ -65,6 +65,18 @@ make install
 wol 12:34:56:78:9a:bc
 ```
 
+## License
+
+The source codes and documentation in this project are released under the [BSD-3-Clause License](https://github.com/kei-g/wol/blob/main/COPYING).
+
+## Contributions
+
+Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wol/blob/main/CONTRIBUTING.md).
+
+## Code of Conduct
+
+:clap: Be nice. See [our code of conduct](https://github.com/kei-g/wol/blob/main/CODE_OF_CONDUCT.md).
+
 [github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
 [github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
 [github-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg
