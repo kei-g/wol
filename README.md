@@ -1,6 +1,6 @@
 # wol [![license][license-image]][license-url]
 
-[![GitHub CI (Build)][github-build-image]][github-build-url]
+[![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url]
 
 Wake-On-LAN client
 
@@ -67,6 +67,8 @@ wol 12:34:56:78:9a:bc
 
 [github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
 [github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
+[github-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg
+[github-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml
 [github-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
