@@ -1,6 +1,6 @@
 # wol [![license][license-image]][license-url]
 
-[![GitHub CI (Build)][github-build-image]][github-build-url] [![travis][travis-image]][travis-url]
+[![GitHub CI (Build)][github-build-image]][github-build-url]
 
 Wake-On-LAN client
 
@@ -70,5 +70,3 @@ wol 12:34:56:78:9a:bc
 [github-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
-[travis-image]:https://img.shields.io/travis/com/kei-g/wol/main?label=build&logo=travis
-[travis-url]:https://app.travis-ci.com/kei-g/wol
