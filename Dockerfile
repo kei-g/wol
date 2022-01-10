@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:latest AS builder
 
 ENV DEBCONF_NOWARNINGS yes
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,3 +33,7 @@ RUN aclocal && \
 		LD=clang-13 \
 		LDFLAGS="-Wl,-s -fuse-ld=lld" && \
 	make
+
+FROM debian:latest
+
+COPY --from=builder /wol /usr/local/bin/
