@@ -2,7 +2,7 @@
 
 [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url]
 
-Wake-On-LAN client
+`wol` - Wake-On-LAN Client
 
 ## How to build
 
