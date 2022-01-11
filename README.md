@@ -1,4 +1,4 @@
-# wol [![license][license-image]][license-url]
+# wol [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
 
 [![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url]
 
@@ -77,6 +77,8 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wo
 
 :clap: Be nice. See [our code of conduct](https://github.com/kei-g/wol/blob/main/CODE_OF_CONDUCT.md).
 
+[docker-image]:https://img.shields.io/docker/v/snowstep/wol?logo=docker
+[docker-url]:https://hub.docker.com/repository/docker/snowstep/wol
 [github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
 [github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
 [github-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg
