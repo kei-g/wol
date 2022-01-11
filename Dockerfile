@@ -1,7 +1,7 @@
 FROM debian:latest AS builder
 
-ENV DEBCONF_NOWARNINGS yes
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NOWARNINGS=yes
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
 	apt-get install -y \
