@@ -29,6 +29,8 @@ on:
     paths-ignore:
       - '**.md'
       - '.editorconfig'
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/docker.yml'
       - '.gitignore'
       - 'AUTHORS'
       - 'COPYING'
@@ -42,6 +44,8 @@ on:
     paths-ignore:
       - '**.md'
       - '.editorconfig'
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/docker.yml'
       - '.gitignore'
       - 'AUTHORS'
       - 'COPYING'
