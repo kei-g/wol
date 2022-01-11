@@ -28,6 +28,7 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - '.dockerignore'
       - '.editorconfig'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/docker.yml'
@@ -43,6 +44,7 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - '.dockerignore'
       - '.editorconfig'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/docker.yml'
