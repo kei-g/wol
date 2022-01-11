@@ -24,8 +24,6 @@ jobs:
 name: Build
 on:
   pull_request:
-    branches:
-      - main
     paths-ignore:
       - '**.md'
       - '.dockerignore'
@@ -39,9 +37,8 @@ on:
       - 'Dockerfile'
       - 'NEWS'
       - 'README'
+      - 'README.md'
   push:
-    branches:
-      - main
     paths-ignore:
       - '**.md'
       - '.dockerignore'
@@ -55,3 +52,4 @@ on:
       - 'Dockerfile'
       - 'NEWS'
       - 'README'
+      - 'README.md'

@@ -28,33 +28,7 @@ name: CodeQL
 on:
   pull_request:
     branches:
-      - main
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.github/workflows/build.yml'
-      - '.github/workflows/docker.yml'
-      - '.gitignore'
-      - 'AUTHORS'
-      - 'COPYING'
-      - 'ChangeLog'
-      - 'Dockerfile'
-      - 'NEWS'
-      - 'README'
+      - '**'
   push:
     branches:
-      - main
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.github/workflows/build.yml'
-      - '.github/workflows/docker.yml'
-      - '.gitignore'
-      - 'AUTHORS'
-      - 'COPYING'
-      - 'ChangeLog'
-      - 'Dockerfile'
-      - 'NEWS'
-      - 'README'
-  schedule:
-    - cron: '37 14 * * 6'
+      - '**'
