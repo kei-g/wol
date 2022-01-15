@@ -20,7 +20,7 @@ AC_TYPE_SSIZE_T
 AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([memset socket strtoul])
+AC_CHECK_FUNCS([close fprintf fputs memcpy memset perror sendto setsockopt socket stderr strtok_r strtoul])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
