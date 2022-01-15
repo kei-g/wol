@@ -1,4 +1,4 @@
-FROM debian:latest AS builder
+FROM debian:stable-slim AS builder
 
 ENV DEBCONF_NOWARNINGS=yes
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,7 +31,7 @@ RUN aclocal && \
 	./configure --disable-dependency-tracking && \
 	make
 
-FROM debian:latest
+FROM debian:stable-slim
 
 COPY --from=builder /wol /usr/local/bin/
 
