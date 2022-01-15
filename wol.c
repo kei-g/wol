@@ -1,5 +1,5 @@
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+  #include "config.h"
 #endif
 
 #include <arpa/inet.h>
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
   }
   uint8_t macaddr[6], *dst = macaddr;
   for (char *tok, *s = strtok_r(argv[1], ":", &tok), n = 0; s && n < 6;
-    s = strtok_r(NULL, ":", &tok), n++) {
+       s = strtok_r(NULL, ":", &tok), n++) {
     char *ep;
     unsigned long ul = strtoul(s, &ep, 16);
     if (*ep || UINT8_MAX < ul) {
