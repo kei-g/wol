@@ -24,15 +24,16 @@ COPY README ./
 COPY configure.ac ./
 COPY wol.c ./
 
+ENV CC=clang-13
+ENV CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti"
+ENV LD=clang-13
+ENV LDFLAGS="-Wl,-s -fuse-ld=lld"
+
 RUN aclocal && \
 	autoheader && \
 	automake -a -c && \
 	autoconf && \
-	./configure --disable-dependency-tracking \
-		CC=clang-13 \
-		CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" \
-		LD=clang-13 \
-		LDFLAGS="-Wl,-s -fuse-ld=lld" && \
+	./configure --disable-dependency-tracking && \
 	make
 
 FROM debian:latest
