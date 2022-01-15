@@ -8,7 +8,7 @@ ARG PACKAGES="automake gnupg lsb-release make software-properties-common wget"
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y ${PACKAGES}
-RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+RUN wget -O - https://apt.llvm.org/llvm.sh | bash -s
 
 COPY AUTHORS ./
 COPY COPYING ./
