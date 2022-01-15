@@ -34,3 +34,5 @@ RUN aclocal && \
 FROM debian:latest
 
 COPY --from=builder /wol /usr/local/bin/
+
+ENTRYPOINT ["/usr/local/bin/wol"]
