@@ -28,7 +28,7 @@ jobs:
           [[ ${#MAJOR_VERSION} -gt 0 ]] && \
             docker tag "$IMAGE_NAME" "$IMAGE_NAME:$MAJOR_VERSION"
           docker tag "$IMAGE_NAME" "$IMAGE_NAME:$VERSION"
-      - name: Push the built image to Docker Hub 
+      - name: Push the built image to Docker Hub
         run: |
           docker push --all-tags "$IMAGE_NAME"
       - name: Patch the description to Docker Hub
