@@ -1,5 +1,6 @@
 jobs:
   docker:
+    if: github.ref_type == 'branch'
     name: Docker
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +35,7 @@ jobs:
           rm -fr /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
   github:
+    if: github.ref_type == 'branch'
     name: GitHub
     runs-on: ubuntu-latest
     steps:
