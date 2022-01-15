@@ -3,17 +3,12 @@ FROM debian:latest AS builder
 ENV DEBCONF_NOWARNINGS=yes
 ENV DEBIAN_FRONTEND=noninteractive
 
+ARG PACKAGES="automake gnupg lsb-release make software-properties-common wget"
+
 RUN apt-get update && \
 	apt-get upgrade -y && \
-	apt-get install -y \
-		gnupg \
-		lsb-release \
-		software-properties-common \
-		wget && \
-	bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && \
-	apt-get install -y \
-		automake \
-		make
+	apt-get install -y ${PACKAGES} && \
+	bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
 COPY AUTHORS ./
 COPY COPYING ./
