@@ -5,10 +5,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ARG PACKAGES="automake gnupg lsb-release make software-properties-common wget"
 
-RUN apt-get update && \
-	apt-get upgrade -y && \
-	apt-get install -y ${PACKAGES} && \
-	bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y ${PACKAGES}
+RUN bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
 COPY AUTHORS ./
 COPY COPYING ./
@@ -24,12 +24,12 @@ ENV CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti"
 ENV LD=clang-13
 ENV LDFLAGS="-Wl,-s -fuse-ld=lld"
 
-RUN aclocal && \
-	autoheader && \
-	automake -a -c && \
-	autoconf && \
-	./configure --disable-dependency-tracking && \
-	make
+RUN aclocal
+RUN autoheader
+RUN automake -a -c
+RUN autoconf
+RUN ./configure --disable-dependency-tracking
+RUN make
 
 FROM debian:stable-slim
 
