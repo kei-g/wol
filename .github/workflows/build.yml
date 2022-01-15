@@ -71,7 +71,6 @@ on:
       - 'ChangeLog'
       - 'NEWS'
       - 'README'
-      - 'README.md'
   push:
     paths-ignore:
       - '**.md'
@@ -84,4 +83,3 @@ on:
       - 'ChangeLog'
       - 'NEWS'
       - 'README'
-      - 'README.md'
