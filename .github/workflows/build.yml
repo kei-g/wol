@@ -1,6 +1,40 @@
 jobs:
-  build:
-    name: Build
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          path: /tmp/.buildx-cache
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build
+        uses: docker/build-push-action@v2
+        with:
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          context: .
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+      - name: Move cache
+        run: |
+          rm -fr /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+  github:
+    name: GitHub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +60,6 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
-      - '.dockerignore'
       - '.editorconfig'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/docker.yml'
@@ -34,14 +67,12 @@ on:
       - 'AUTHORS'
       - 'COPYING'
       - 'ChangeLog'
-      - 'Dockerfile'
       - 'NEWS'
       - 'README'
       - 'README.md'
   push:
     paths-ignore:
       - '**.md'
-      - '.dockerignore'
       - '.editorconfig'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/docker.yml'
@@ -49,7 +80,6 @@ on:
       - 'AUTHORS'
       - 'COPYING'
       - 'ChangeLog'
-      - 'Dockerfile'
       - 'NEWS'
       - 'README'
       - 'README.md'
