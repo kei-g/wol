@@ -2,7 +2,7 @@ env:
   IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
 jobs:
   docker:
-    if: startsWith(github.ref, 'refs/tags')
+    if: github.ref_type == 'tag'
     name: Docker
     runs-on: ubuntu-latest
     steps:
