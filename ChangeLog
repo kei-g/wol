@@ -1,5 +1,9 @@
 # Change Logs
 
+## Version 1.0.2
+
+- :whale: Base image is changed from debian:stable-slim to busybox:glibc
+
 ## Version 1.0.1
 
 - :whale: Base image is changed from ubuntu:latest to debian:stable-slim
