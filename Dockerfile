@@ -31,7 +31,7 @@ RUN autoconf
 RUN ./configure --disable-dependency-tracking
 RUN make
 
-FROM debian:stable-slim
+FROM busybox:glibc
 
 COPY --from=builder /wol /usr/local/bin/
 
