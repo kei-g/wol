@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT(wol, 1.0.0, km.8k6ce+github@gmail.com)
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([wol.c])
+AC_CONFIG_SRCDIR([../wol.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.

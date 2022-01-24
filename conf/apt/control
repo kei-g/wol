@@ -1,0 +1,9 @@
+Architecture: %ARCH%
+Depends: libc6 (>=2.31)
+Description: Wake-On-LAN Client
+Maintainer: kei-g <km.8k6ce+github@gmail.com>
+Package: wol
+Priority: optional
+Section: misc
+Source: wol
+Version: %VERSION%
