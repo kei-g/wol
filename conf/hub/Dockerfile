@@ -8,7 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
   && wget -O - https://apt.llvm.org/llvm.sh \
   | bash -s
 
-COPY * /
+COPY autotools/* wol.c /
 
 RUN aclocal \
   && autoheader \
