@@ -47,17 +47,30 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install automake -y
       - name: Run aclocal
-        run: aclocal
+        run: |
+          cd autotools
+          aclocal
       - name: Run autoheader
-        run: autoheader
+        run: |
+          cd autotools
+          autoheader
       - name: Run automake
-        run: automake -a -c
+        run: |
+          cd autotools
+          automake -a -c
       - name: Run autoconf
-        run: autoconf
+        run: |
+          cd autotools
+          autoconf
       - name: Configure
-        run: ./configure --disable-dependency-tracking CC=clang CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" LD=clang LDFLAGS="-Wl,-s -fuse-ld=lld"
+        run: |
+          mkdir -pv build
+          cd build
+          ../autotools/configure --disable-dependency-tracking CC=clang CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" LD=clang LDFLAGS="-Wl,-s -fuse-ld=lld"
       - name: Run make
-        run: make
+        run: |
+          cd build
+          make
 name: Build
 on:
   pull_request:
