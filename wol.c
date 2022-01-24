@@ -2,15 +2,31 @@
   #include "config.h"
 #endif
 
-#include <arpa/inet.h>
-#include <netinet/in.h>
+#ifndef WIN32
+  #include <arpa/inet.h>
+  #include <netinet/in.h>
+#endif /* WIN32 */
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
+
+#ifdef WIN32
+  #include <winsock2.h>
+#else /* WIN32 */
+  #include <sys/socket.h>
+  #include <sys/types.h>
+  #include <unistd.h>
+#endif /* WIN32 */
+
+#ifdef WIN32
+  #define close closesocket
+  #define perror(name) \
+    fprintf(stderr, name ": %08lx\n", GetLastError())
+#else /* WIN32 */
+  #define WSACleanup()
+#endif /* WIN32 */
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
@@ -32,15 +48,21 @@ int main(int argc, char *argv[]) {
     fputs("too short macaddr\n", stderr);
     return 1;
   }
+#ifdef WIN32
+  WSADATA wsa;
+  WSAStartup(MAKEWORD(2, 0), &wsa);
+#endif /* WIN32 */
   int sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
     perror("socket");
+    WSACleanup();
     return 1;
   }
-  int bc = 1;
+  char bc = 1;
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &bc, sizeof(bc)) < 0) {
     perror("setsockopt");
     close(sock);
+    WSACleanup();
     return 1;
   }
   struct sockaddr_in raddr;
@@ -48,7 +70,7 @@ int main(int argc, char *argv[]) {
   raddr.sin_family = AF_INET;
   raddr.sin_port = htons(9);
   raddr.sin_addr.s_addr = -1;
-  uint8_t msg[102];
+  char msg[102];
   memset(msg, -1, 6);
   for (int i = 0; i < 16; i++)
     memcpy(msg + (i + 1) * 6, macaddr, 6);
@@ -57,8 +79,10 @@ int main(int argc, char *argv[]) {
   if (wlen < 0) {
     perror("sendto");
     close(sock);
+    WSACleanup();
     return 1;
   }
   close(sock);
+  WSACleanup();
   return 0;
 }
