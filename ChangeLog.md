@@ -1,5 +1,19 @@
 # Change Logs
 
+## Version 1.1.1
+
+- fix: 
+  - :whale: A missing output of VERSION has been complemented
+  - :whale: CFLAGS is modified
+  - :whale: The script to build a docker image is fixed
+- docs:
+  - :memo: CI status badges is changed to a table
+  - :memo: How to use the docker image
+  - :memo: The physial address for an example of usage is modified
+- refactor:
+  - :recycle: A function to allow broadcast is separated
+  - :recycle: A function to parse options is separated
+
 ## Version 1.1.0
 
 - chore: CI
