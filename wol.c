@@ -30,7 +30,7 @@
 #endif /* WIN32 */
 
 static bool allow_broadcast(int sock) {
-  char yes = 1;
+  int yes = 1;
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
     perror("setsockopt");
     close(sock);
