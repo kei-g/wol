@@ -9,6 +9,12 @@
 | **devel** | [![GitHub CI (Build)][github-devel-build-image]][github-devel-build-url] | [![GitHub CI (CodeQL)][github-devel-codeql-image]][github-devel-codeql-url] |
 | **main** | [![GitHub CI (Build)][github-main-build-image]][github-main-build-url] | [![GitHub CI (CodeQL)][github-main-codeql-image]][github-main-codeql-url] |
 
+## How to use
+
+```shell
+docker run --rm snowstep/wol 00:00:5e:00:53:00
+```
+
 ## How to build
 
 ### Install packages to build
