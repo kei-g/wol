@@ -15,9 +15,9 @@ RUN aclocal \
   && automake -a -c \
   && autoconf \
   && CC=clang-13 \
-  CFLAGS="-Oz -Wall -Werror -Wextra -fno-exceptions -fno-rtti" \
+  CFLAGS="-Oz -Wall -Werror -Wextra -flto -fno-plt" \
   LD=clang-13 \
-  LDFLAGS="-Wl,-s -fuse-ld=lld" \
+  LDFLAGS="-Wl,-s -flto -fno-plt -fuse-ld=lld" \
   ./configure --disable-dependency-tracking \
   && make
 
