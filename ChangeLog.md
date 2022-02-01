@@ -2,7 +2,7 @@
 
 ## Version 1.1.1
 
-- fix: 
+- fix:
   - :whale: A missing output of VERSION has been complemented
   - :whale: CFLAGS is modified
   - :whale: The script to build a docker image is fixed
