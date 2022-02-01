@@ -8,18 +8,9 @@ RUN DEBIAN_FRONTEND=noninteractive \
   && wget -O - https://apt.llvm.org/llvm.sh \
   | bash -s
 
-COPY autotools/* wol.c /
+COPY wol.c /
 
-RUN aclocal \
-  && autoheader \
-  && automake -a -c \
-  && autoconf \
-  && CC=clang-13 \
-  CFLAGS="-Oz -Wall -Werror -Wextra -flto -fno-plt" \
-  LD=clang-13 \
-  LDFLAGS="-Wl,-s -flto -fno-plt -fuse-ld=lld" \
-  ./configure --disable-dependency-tracking \
-  && make
+RUN clang-13 -Oz -Wall -Werror -Wextra -Wl,-s -flto -fno-plt -fuse-ld=lld -o wol wol.c
 
 FROM busybox:glibc
 
