@@ -67,7 +67,7 @@ make install
 ## Usage
 
 ```shell
-wol 12:34:56:78:9a:bc
+wol 00:00:5e:00:53:00
 ```
 
 ## License
