@@ -29,6 +29,17 @@
   #define WSACleanup()
 #endif /* WIN32 */
 
+static bool allow_broadcast(int sock) {
+  char yes = 1;
+  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
+    perror("setsockopt");
+    close(sock);
+    WSACleanup();
+    return false;
+  }
+  return true;
+}
+
 static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
   if (argc < 2) {
     fputs("too few argument\n", stderr);
@@ -66,13 +77,8 @@ int main(int argc, char *argv[]) {
     WSACleanup();
     return 1;
   }
-  char bc = 1;
-  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &bc, sizeof(bc)) < 0) {
-    perror("setsockopt");
-    close(sock);
-    WSACleanup();
+  if (!allow_broadcast(sock))
     return 1;
-  }
   struct sockaddr_in raddr;
   memset(&raddr, 0, sizeof(raddr));
   raddr.sin_family = AF_INET;
