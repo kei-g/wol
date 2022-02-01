@@ -6,7 +6,7 @@ WORKDIR /root
 
 COPY conf/apt/control wol.c ./
 
-ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,-s -fno-exceptions -fno-rtti -fuse-ld=lld"
+ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,-s -flto -fno-plt -fuse-ld=lld"
 
 RUN dest=wol_${VERSION}_amd64 \
   && mkdir -p $dest/DEBIAN $dest/usr/local/bin \

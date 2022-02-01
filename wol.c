@@ -7,6 +7,7 @@
   #include <netinet/in.h>
 #endif /* WIN32 */
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,26 +29,44 @@
   #define WSACleanup()
 #endif /* WIN32 */
 
-int main(int argc, char *argv[]) {
+static bool allow_broadcast(int sock) {
+  char yes = 1;
+  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
+    perror("setsockopt");
+    close(sock);
+    WSACleanup();
+    return false;
+  }
+  return true;
+}
+
+static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
   if (argc < 2) {
     fputs("too few argument\n", stderr);
-    return 1;
+    return false;
   }
-  uint8_t macaddr[6], *dst = macaddr;
+  uint8_t *dst = macaddr;
   for (char *tok, *s = strtok_r(argv[1], ":", &tok), n = 0; s && n < 6;
        s = strtok_r(NULL, ":", &tok), n++) {
     char *ep;
     unsigned long ul = strtoul(s, &ep, 16);
     if (*ep || UINT8_MAX < ul) {
       fprintf(stderr, "invalid argument, %s\n", s);
-      return 1;
+      return false;
     }
     *dst++ = (uint8_t)ul;
   }
   if (dst < macaddr + 6) {
     fputs("too short macaddr\n", stderr);
-    return 1;
+    return false;
   }
+  return true;
+}
+
+int main(int argc, char *argv[]) {
+  uint8_t macaddr[6];
+  if (!parse_opts(argc, argv, macaddr))
+    return 1;
 #ifdef WIN32
   WSADATA wsa;
   WSAStartup(MAKEWORD(2, 0), &wsa);
@@ -58,13 +77,8 @@ int main(int argc, char *argv[]) {
     WSACleanup();
     return 1;
   }
-  char bc = 1;
-  if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &bc, sizeof(bc)) < 0) {
-    perror("setsockopt");
-    close(sock);
-    WSACleanup();
+  if (!allow_broadcast(sock))
     return 1;
-  }
   struct sockaddr_in raddr;
   memset(&raddr, 0, sizeof(raddr));
   raddr.sin_family = AF_INET;
