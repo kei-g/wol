@@ -1,8 +1,19 @@
 # wol [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
 
-[![GitHub CI (Build)][github-build-image]][github-build-url] [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url]
-
 `wol` - Wake-On-LAN Client
+
+## CI Status
+
+| | Build | CodeQL |
+| ---- | ---- | ---- |
+| **devel** | [![GitHub CI (Build)][github-devel-build-image]][github-devel-build-url] | [![GitHub CI (CodeQL)][github-devel-codeql-image]][github-devel-codeql-url] |
+| **main** | [![GitHub CI (Build)][github-main-build-image]][github-main-build-url] | [![GitHub CI (CodeQL)][github-main-codeql-image]][github-main-codeql-url] |
+
+## How to use
+
+```shell
+docker run --rm snowstep/wol 00:00:5e:00:53:00
+```
 
 ## How to build
 
@@ -62,7 +73,7 @@ make install
 ## Usage
 
 ```shell
-wol 12:34:56:78:9a:bc
+wol 00:00:5e:00:53:00
 ```
 
 ## License
@@ -79,10 +90,14 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wo
 
 [docker-image]:https://img.shields.io/docker/v/snowstep/wol?logo=docker
 [docker-url]:https://hub.docker.com/r/snowstep/wol
-[github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
-[github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
-[github-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg
-[github-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml
+[github-devel-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg?branch=devel
+[github-devel-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Adevel
+[github-devel-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=devel
+[github-devel-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Adevel
+[github-main-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg?branch=main
+[github-main-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Amain
+[github-main-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=main
+[github-main-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Amain
 [github-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
