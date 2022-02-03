@@ -29,6 +29,12 @@
   #define WSACleanup()
 #endif /* WIN32 */
 
+typedef struct wol_option wolopt;
+
+struct wol_option {
+  uint8_t macaddr[6];
+};
+
 static bool allow_broadcast(int sock) {
   int yes = 1;
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
@@ -40,12 +46,12 @@ static bool allow_broadcast(int sock) {
   return true;
 }
 
-static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
+static bool parse_opts(int argc, char *argv[], wolopt *opt) {
   if (argc < 2) {
     fputs("too few argument\n", stderr);
     return false;
   }
-  uint8_t *dst = macaddr;
+  uint8_t *dst = opt->macaddr;
   for (char *tok, *s = strtok_r(argv[1], ":", &tok), n = 0; s && n < 6;
        s = strtok_r(NULL, ":", &tok), n++) {
     char *ep;
@@ -56,7 +62,7 @@ static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
     }
     *dst++ = (uint8_t)ul;
   }
-  if (dst < macaddr + 6) {
+  if (dst < opt->macaddr + 6) {
     fputs("too short macaddr\n", stderr);
     return false;
   }
@@ -64,8 +70,8 @@ static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
 }
 
 int main(int argc, char *argv[]) {
-  uint8_t macaddr[6];
-  if (!parse_opts(argc, argv, macaddr))
+  wolopt opt;
+  if (!parse_opts(argc, argv, &opt))
     return 1;
 #ifdef WIN32
   WSADATA wsa;
@@ -87,7 +93,7 @@ int main(int argc, char *argv[]) {
   char msg[102];
   memset(msg, -1, 6);
   for (int i = 0; i < 16; i++)
-    memcpy(msg + (i + 1) * 6, macaddr, 6);
+    memcpy(msg + (i + 1) * 6, opt.macaddr, 6);
   ssize_t wlen = sendto(sock, msg, sizeof(msg), 0,
                         (struct sockaddr *)&raddr, sizeof(raddr));
   if (wlen < 0) {
