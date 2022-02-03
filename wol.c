@@ -23,14 +23,23 @@
 
 #ifdef WIN32
   #define close closesocket
-  #define perror(name) \
-    fprintf(stderr, name ": %08lx\n", GetLastError())
+  #define perror(name) fprintf(stderr, name ": %08lx\n", GetLastError())
 #else /* WIN32 */
   #define WSACleanup()
 #endif /* WIN32 */
 
+typedef struct wol_option wolopt;
+
+struct wol_option {
+  uint8_t macaddr[6];
+};
+
 static bool allow_broadcast(int sock) {
+#ifdef WIN32
+  char yes = 1;
+#else  /* WIN32 */
   int yes = 1;
+#endif /* WIN32 */
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
     perror("setsockopt");
     close(sock);
@@ -40,13 +49,9 @@ static bool allow_broadcast(int sock) {
   return true;
 }
 
-static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
-  if (argc < 2) {
-    fputs("too few argument\n", stderr);
-    return false;
-  }
+static bool parse_macaddr(char *argv, uint8_t macaddr[6]) {
   uint8_t *dst = macaddr;
-  for (char *tok, *s = strtok_r(argv[1], ":", &tok), n = 0; s && n < 6;
+  for (char *tok, *s = strtok_r(argv, ":", &tok), n = 0; s && n < 6;
        s = strtok_r(NULL, ":", &tok), n++) {
     char *ep;
     unsigned long ul = strtoul(s, &ep, 16);
@@ -63,9 +68,17 @@ static bool parse_opts(int argc, char *argv[], uint8_t macaddr[6]) {
   return true;
 }
 
+static bool parse_opts(int argc, char *argv[], wolopt *opt) {
+  if (argc < 2) {
+    fputs("too few argument\n", stderr);
+    return false;
+  }
+  return parse_macaddr(argv[1], opt->macaddr);
+}
+
 int main(int argc, char *argv[]) {
-  uint8_t macaddr[6];
-  if (!parse_opts(argc, argv, macaddr))
+  wolopt opt;
+  if (!parse_opts(argc, argv, &opt))
     return 1;
 #ifdef WIN32
   WSADATA wsa;
@@ -87,7 +100,7 @@ int main(int argc, char *argv[]) {
   char msg[102];
   memset(msg, -1, 6);
   for (int i = 0; i < 16; i++)
-    memcpy(msg + (i + 1) * 6, macaddr, 6);
+    memcpy(msg + (i + 1) * 6, opt.macaddr, 6);
   ssize_t wlen = sendto(sock, msg, sizeof(msg), 0,
                         (struct sockaddr *)&raddr, sizeof(raddr));
   if (wlen < 0) {
