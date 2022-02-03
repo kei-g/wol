@@ -1,6 +1,6 @@
 FROM debian:stable-slim AS builder
 
-ARG PACKAGES="automake gnupg lsb-release make software-properties-common wget"
+ARG PACKAGES="gnupg lsb-release software-properties-common wget"
 
 RUN DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
