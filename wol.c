@@ -23,8 +23,7 @@
 
 #ifdef WIN32
   #define close closesocket
-  #define perror(name) \
-    fprintf(stderr, name ": %08lx\n", GetLastError())
+  #define perror(name) fprintf(stderr, name ": %08lx\n", GetLastError())
 #else /* WIN32 */
   #define WSACleanup()
 #endif /* WIN32 */
@@ -38,7 +37,7 @@ struct wol_option {
 static bool allow_broadcast(int sock) {
 #ifdef WIN32
   char yes = 1;
-#else /* WIN32 */
+#else  /* WIN32 */
   int yes = 1;
 #endif /* WIN32 */
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &yes, sizeof(yes)) < 0) {
