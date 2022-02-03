@@ -46,13 +46,9 @@ static bool allow_broadcast(int sock) {
   return true;
 }
 
-static bool parse_opts(int argc, char *argv[], wolopt *opt) {
-  if (argc < 2) {
-    fputs("too few argument\n", stderr);
-    return false;
-  }
-  uint8_t *dst = opt->macaddr;
-  for (char *tok, *s = strtok_r(argv[1], ":", &tok), n = 0; s && n < 6;
+static bool parse_macaddr(char *argv, uint8_t macaddr[6]) {
+  uint8_t *dst = macaddr;
+  for (char *tok, *s = strtok_r(argv, ":", &tok), n = 0; s && n < 6;
        s = strtok_r(NULL, ":", &tok), n++) {
     char *ep;
     unsigned long ul = strtoul(s, &ep, 16);
@@ -62,11 +58,19 @@ static bool parse_opts(int argc, char *argv[], wolopt *opt) {
     }
     *dst++ = (uint8_t)ul;
   }
-  if (dst < opt->macaddr + 6) {
+  if (dst < macaddr + 6) {
     fputs("too short macaddr\n", stderr);
     return false;
   }
   return true;
+}
+
+static bool parse_opts(int argc, char *argv[], wolopt *opt) {
+  if (argc < 2) {
+    fputs("too few argument\n", stderr);
+    return false;
+  }
+  return parse_macaddr(argv[1], opt->macaddr);
 }
 
 int main(int argc, char *argv[]) {
