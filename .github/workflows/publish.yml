@@ -43,7 +43,7 @@ jobs:
       - name: Extract .deb files
         run: docker run --rm ${{ env.IMAGE_NAME }}:apt sh -c 'tar -cf - *.deb' | tar -vxf -
       - name: Archive
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}
           path: |
