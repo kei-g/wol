@@ -2,6 +2,10 @@ FROM snowstep/cross-debian:latest
 
 ARG VERSION
 
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+  && apt-get upgrade --no-install-recommends -y
+
 WORKDIR /root
 
 COPY conf/apt/control wol.c ./
