@@ -1,16 +1,18 @@
-FROM debian:stable-slim AS builder
-
-ARG PACKAGES="gnupg lsb-release software-properties-common wget"
-
-RUN DEBIAN_FRONTEND=noninteractive \
-  && apt-get update \
-  && apt-get install -y ${PACKAGES} \
-  && wget -O - https://apt.llvm.org/llvm.sh \
-  | bash -s
+FROM snowstep/llvm:latest AS builder
 
 COPY wol.c /
 
-RUN clang-13 -Oz -Wall -Werror -Wextra -Wl,-s -flto -fno-plt -fuse-ld=lld -o wol wol.c
+RUN clang \
+    -Oz \
+    -Wall \
+    -Werror \
+    -Wextra \
+    -Wl,-s \
+    -flto \
+    -fno-plt \
+    -fuse-ld=lld \
+    -o wol \
+    wol.c
 
 FROM busybox:glibc
 
