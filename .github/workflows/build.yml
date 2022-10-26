@@ -74,26 +74,4 @@ jobs:
 name: Build
 on:
   pull_request:
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.github/workflows/codeql.yml'
-      - '.github/workflows/publish.yml'
-      - '.gitignore'
-      - 'AUTHORS'
-      - 'COPYING'
-      - 'ChangeLog'
-      - 'NEWS'
-      - 'README'
   push:
-    paths-ignore:
-      - '**.md'
-      - '.editorconfig'
-      - '.github/workflows/codeql.yml'
-      - '.github/workflows/publish.yml'
-      - '.gitignore'
-      - 'AUTHORS'
-      - 'COPYING'
-      - 'ChangeLog'
-      - 'NEWS'
-      - 'README'
