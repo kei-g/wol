@@ -1,5 +1,50 @@
 # Change Logs
 
+## Version 1.2.0
+
+- feature:
+  - :sparkles: Support --bind option
+- ci:
+  - :green_heart: Explicitly specify 'load' as true at build step on MinGW workflow
+  - :robot: Specify 'devel' as the target branch of Dependabot
+  - :green_heart: Use $GITHUB_ENV instead of deprecated `::set-output` style
+  - :green_heart: Remove implicit latest tag to publish
+  - :green_heart: Remove unsupported option, --pull=missing
+  - :green_heart: Separate a long command into multiple lines
+  - :green_heart: Restrict conditions to run the publish workflow
+  - :green_heart: Arrange arguments by ascending order
+  - :arrow_up: Bump `docker/login-action` from 1 to 2
+  - :green_heart: Abolish publishing the image, `snowstep/wol:apt`
+  - :green_heart: Avoid login to DockerHub on the build workflow
+  - :green_heart: Remove conditions to run workflows
+  - :arrow_up: Bump `actions/upload-artifact` from 2 to 3
+  - :arrow_up: Bump `actions/checkout` from 2 to 3
+  - :arrow_up: Bump `actions/cache` from 2 to 3
+  - :arrow_up: Bump `docker/setup-buildx-action` from 1 to 2
+  - :arrow_up: Bump `docker/build-push-action` from 2 to 3
+  - :arrow_up: Bump `github/codeql-action` from 1 to 2
+  - :hammer: Use 'tools/patch-dockerhub.sh'
+  - :green_heart: Add a workflow to cross compile for MinGW
+  - :green_heart: Update dependencies before build .deb packages
+  - :green_heart: Remove unnecessary dependencies
+  - :green_heart: Make it possible to archive .deb packages by `actions/upload-artifact`
+  - :green_heart: Modify CFLAGS and LDFLAGS
+- doc:
+  - :memo: Add a badge to link to the github repository
+  - :lipstick: Remove a trailing whitespace
+- fix:
+  - :whale: Remove dependency on specific `llvm` version
+    - :whale: Add a library path to `gcc` for MinGW
+      - :whale: Separate arguments to multiple lines
+  - :lipstick: Tweak '.clang-format' and fix style
+  - :hammer: Add flags, -Wall -Werror -Wextra -pedantic, to build for x86_64-w64-mingw32
+  - :rotating_light: Correct the type of argument for `setsockopt` to allow broadcast except on x86_64-w64-mingw32
+- refactor:
+  - :recycle: Separate a function to parse the mac address
+  - :recycle: Add a struct to represent the program options
+- misc:
+  - :wrench: Add setting files
+
 ## Version 1.1.1
 
 - fix:
