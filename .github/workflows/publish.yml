@@ -10,12 +10,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - id: version
-        name: Get the version
+      - name: Get the version
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          VERSION=$(echo "$VERSION" | sed -e 's/^v//')
-          echo "::set-output name=VERSION::$VERSION"
+          ref=${{ github.ref }}
+          echo "VERSION=${ref#refs/tags/v" | tee -a $GITHUB_ENV
+        shell: bash
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Cache Docker layers
@@ -28,7 +27,7 @@ jobs:
       - name: Build a docker image
         uses: docker/build-push-action@v3
         with:
-          build-args: VERSION=${{ steps.version.outputs.VERSION }}
+          build-args: VERSION=${{ env.VERSION }}
           cache-from: type=local,src=/tmp/.buildx-apt-cache
           cache-to: type=local,dest=/tmp/.buildx-apt-cache-new,mode=max
           context: .
@@ -52,10 +51,10 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}
           path: |
-            wol_${{ steps.version.outputs.VERSION }}_amd64.deb
-            wol_${{ steps.version.outputs.VERSION }}_arm64.deb
-            wol_${{ steps.version.outputs.VERSION }}_armhf.deb
-            wol_${{ steps.version.outputs.VERSION }}_i386.deb
+            wol_${{ env.VERSION }}_amd64.deb
+            wol_${{ env.VERSION }}_arm64.deb
+            wol_${{ env.VERSION }}_armhf.deb
+            wol_${{ env.VERSION }}_i386.deb
   docker:
     if: github.ref_type == 'tag'
     name: Docker
@@ -69,13 +68,14 @@ jobs:
       - id: version
         name: Get the version
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          VERSION=$(echo "$VERSION" | sed -e 's/^v//')
-          MAJOR_VERSION=$(echo $VERSION | sed -n "s/^\([0-9]*\).[0-9]*.[0-9]*$/\1/p")
-          MINOR_VERSION=$(echo $VERSION | sed -n "s/^\([0-9]*.[0-9]*\).[0-9]*$/\1/p")
-          echo "::set-output name=MAJOR_VERSION::$MAJOR_VERSION"
-          echo "::set-output name=MINOR_VERSION::$MINOR_VERSION"
-          echo "::set-output name=VERSION::$VERSION"
+          ref=${{ github.ref }}
+          version=${ref#refs/tags/v}
+          minor=${version%\.[0-9]*}
+          major=${minor%\.[0-9]*}
+          echo "MAJOR_VERSION=$major" | tee -a $GITHUB_ENV
+          echo "MINOR_VERSION=$minor" | tee -a $GITHUB_ENV
+          echo "VERSION=$version" | tee -a $GITHUB_ENV
+        shell: bash
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Cache Docker layers
@@ -99,9 +99,9 @@ jobs:
           file: conf/hub/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MAJOR_VERSION }}
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MINOR_VERSION }}
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.MAJOR_VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.MINOR_VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
       - name: Move cache
         run: |
           rm -fr /tmp/.buildx-cache
