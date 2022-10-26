@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "**/COPYING": "plaintext",
+    "**/LICENSE": "plaintext",
+  },
+}

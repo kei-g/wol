@@ -25,6 +25,11 @@ jobs:
           path: /tmp/.buildx-apt-cache
           restore-keys: |
             ${{ runner.os }}-buildx-apt-
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build a docker image
         uses: docker/build-push-action@v2
         with:
@@ -33,7 +38,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-apt-cache-new,mode=max
           context: .
           file: conf/apt/Dockerfile
-          push: false
+          push: true
           tags: |
             ${{ env.IMAGE_NAME }}:apt
       - name: Move cache
@@ -41,7 +46,7 @@ jobs:
           rm -fr /tmp/.buildx-apt-cache
           mv /tmp/.buildx-apt-cache-new /tmp/.buildx-apt-cache
       - name: Extract .deb files
-        run: docker run --rm ${{ env.IMAGE_NAME }}:apt sh -c 'tar -cf - *.deb' | tar -vxf -
+        run: docker run --pull=missing --rm ${{ env.IMAGE_NAME }}:apt sh -c 'tar -cf - *.deb' | tar -vxf -
       - name: Archive
         uses: actions/upload-artifact@v2
         with:
@@ -54,6 +59,7 @@ jobs:
   docker:
     if: github.ref_type == 'tag'
     name: Docker
+    needs: apt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -102,12 +108,10 @@ jobs:
           rm -fr /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Patch the description to Docker Hub
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/wol
-          short-description: Wake-On-LAN Client
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+        run: |
+          DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }} \
+          DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} \
+          tools/patch-dockerhub ${{ github.event.repository.name }} "Wake-On-LAN Client"
 name: Publish
 on:
   create:
