@@ -99,7 +99,6 @@ jobs:
           file: conf/hub/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MAJOR_VERSION }}
             ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MINOR_VERSION }}
             ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
