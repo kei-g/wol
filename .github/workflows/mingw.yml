@@ -24,6 +24,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-mingw-cache-new,mode=max
           context: .
           file: conf/mingw/Dockerfile
+          load: true
           push: false
       - name: Move cache
         run: |
