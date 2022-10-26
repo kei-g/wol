@@ -43,7 +43,6 @@ jobs:
       - name: Extract .deb files
         run: |
           docker run \
-              --pull=missing \
               --rm \
               ${{ env.IMAGE_NAME }}:apt \
               sh -c 'tar -cf - *.deb' \
