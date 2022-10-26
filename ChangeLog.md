@@ -1,5 +1,31 @@
 # Change Logs
 
+## Version 1.2.0
+
+- feature:
+  - :sparkles: Support --bind option
+- ci:
+  - :hammer: Use 'tools/patch-dockerhub.sh'
+  - :green_heart: Add a workflow to cross compile for MinGW
+  - :green_heart: Update dependencies before build .deb packages
+  - :green_heart: Remove unnecessary dependencies
+  - :green_heart: Make it possible to archive .deb packages by `actions/upload-artifact`
+  - :green_heart: Modify CFLAGS and LDFLAGS
+- doc:
+  - :lipstick: Remove a trailing whitespace
+- fix:
+  - :whale: Remove dependency on specific `llvm` version
+    - :whale: Add a library path to `gcc` for MinGW
+  - :lipstick: Tweak '.clang-format' and fix style
+  - :hammer: Add flags, -Wall -Werror -Wextra -pedantic, to build for x86_64-w64-mingw32
+  - :rotating_light: Correct the type of argument for `setsockopt` to allow broadcast except on x86_64-w64-mingw32
+- refactor:
+  - :whale: Separate arguments to multiple lines
+  - :recycle: Separate a function to parse the mac address
+  - :recycle: Add a struct to represent the program options
+- misc:
+  - :wrench: Add setting files
+
 ## Version 1.1.1
 
 - fix:
