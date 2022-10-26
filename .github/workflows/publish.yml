@@ -7,28 +7,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - id: version
-        name: Get the version
+      - name: Get the version
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          VERSION=$(echo "$VERSION" | sed -e 's/^v//')
-          echo "::set-output name=VERSION::$VERSION"
+          ref=${{ github.ref }}
+          echo "VERSION=${ref#refs/tags/v" | tee -a $GITHUB_ENV
+        shell: bash
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-buildx-apt-${{ github.sha }}
           path: /tmp/.buildx-apt-cache
           restore-keys: |
             ${{ runner.os }}-buildx-apt-
       - name: Build a docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
-          build-args: VERSION=${{ steps.version.outputs.VERSION }}
+          build-args: VERSION=${{ env.VERSION }}
           cache-from: type=local,src=/tmp/.buildx-apt-cache
           cache-to: type=local,dest=/tmp/.buildx-apt-cache-new,mode=max
           context: .
@@ -41,51 +40,58 @@ jobs:
           rm -fr /tmp/.buildx-apt-cache
           mv /tmp/.buildx-apt-cache-new /tmp/.buildx-apt-cache
       - name: Extract .deb files
-        run: docker run --rm ${{ env.IMAGE_NAME }}:apt sh -c 'tar -cf - *.deb' | tar -vxf -
+        run: |
+          docker run \
+              --rm \
+              ${{ env.IMAGE_NAME }}:apt \
+              sh -c 'tar -cf - *.deb' \
+            | tar -vxf -
       - name: Archive
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}
           path: |
-            wol_${{ steps.version.outputs.VERSION }}_amd64.deb
-            wol_${{ steps.version.outputs.VERSION }}_arm64.deb
-            wol_${{ steps.version.outputs.VERSION }}_armhf.deb
-            wol_${{ steps.version.outputs.VERSION }}_i386.deb
+            wol_${{ env.VERSION }}_amd64.deb
+            wol_${{ env.VERSION }}_arm64.deb
+            wol_${{ env.VERSION }}_armhf.deb
+            wol_${{ env.VERSION }}_i386.deb
   docker:
     if: github.ref_type == 'tag'
     name: Docker
+    needs: apt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - id: version
         name: Get the version
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          VERSION=$(echo "$VERSION" | sed -e 's/^v//')
-          MAJOR_VERSION=$(echo $VERSION | sed -n "s/^\([0-9]*\).[0-9]*.[0-9]*$/\1/p")
-          MINOR_VERSION=$(echo $VERSION | sed -n "s/^\([0-9]*.[0-9]*\).[0-9]*$/\1/p")
-          echo "::set-output name=MAJOR_VERSION::$MAJOR_VERSION"
-          echo "::set-output name=MINOR_VERSION::$MINOR_VERSION"
-          echo "::set-output name=VERSION::$VERSION"
+          ref=${{ github.ref }}
+          version=${ref#refs/tags/v}
+          minor=${version%\.[0-9]*}
+          major=${minor%\.[0-9]*}
+          echo "MAJOR_VERSION=$major" | tee -a $GITHUB_ENV
+          echo "MINOR_VERSION=$minor" | tee -a $GITHUB_ENV
+          echo "VERSION=$version" | tee -a $GITHUB_ENV
+        shell: bash
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           path: /tmp/.buildx-cache
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
       - name: Build a docker image and push it
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
@@ -93,23 +99,20 @@ jobs:
           file: conf/hub/Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MAJOR_VERSION }}
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.MINOR_VERSION }}
-            ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.MAJOR_VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.MINOR_VERSION }}
+            ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
       - name: Move cache
         run: |
           rm -fr /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
       - name: Patch the description to Docker Hub
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/wol
-          short-description: Wake-On-LAN Client
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+        run: |
+          DOCKERHUB_PASSWORD=${{ secrets.DOCKERHUB_PASSWORD }} \
+          DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }} \
+          tools/patch-dockerhub ${{ github.event.repository.name }} "Wake-On-LAN Client"
 name: Publish
 on:
   create:
     tags:
-      - 'v[0-9]+(\.[0-9]+)*'
+      - v[0-9]+(\.[0-9]+){2}

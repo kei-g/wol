@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "DavidAnson.vscode-markdownlint",
+    "EditorConfig.EditorConfig",
+    "bierner.markdown-emoji",
+    "dawidd6.debian-vscode",
+    "maelvalais.autoconf",
+    "streetsidesoftware.code-spell-checker",
+  ],
+}

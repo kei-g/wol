@@ -1,13 +1,13 @@
-# wol [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
+# wol [![githuhb][github-repo-image]][github-repo-url] [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
 
 `wol` - Wake-On-LAN Client
 
 ## CI Status
 
-| | Build | CodeQL |
-| ---- | ---- | ---- |
-| **devel** | [![GitHub CI (Build)][github-devel-build-image]][github-devel-build-url] | [![GitHub CI (CodeQL)][github-devel-codeql-image]][github-devel-codeql-url] |
-| **main** | [![GitHub CI (Build)][github-main-build-image]][github-main-build-url] | [![GitHub CI (CodeQL)][github-main-codeql-image]][github-main-codeql-url] |
+| | Build | CodeQL | MinGW |
+| ---- | ---- | ---- | ---- |
+| **devel** | [![GitHub CI (Build)][github-devel-build-image]][github-devel-build-url] | [![GitHub CI (CodeQL)][github-devel-codeql-image]][github-devel-codeql-url] | [![GitHub CI (MinGW)][github-devel-mingw-image]][github-devel-mingw-url] |
+| **main** | [![GitHub CI (Build)][github-main-build-image]][github-main-build-url] | [![GitHub CI (CodeQL)][github-main-codeql-image]][github-main-codeql-url] | [![GitHub CI (MinGW)][github-main-mingw-image]][github-main-mingw-url] |
 
 ## How to use
 
@@ -94,10 +94,15 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wo
 [github-devel-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Adevel
 [github-devel-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=devel
 [github-devel-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Adevel
+[github-devel-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg?branch=devel
+[github-devel-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml?query=branch%3Adevel
 [github-main-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg?branch=main
 [github-main-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Amain
 [github-main-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=main
 [github-main-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Amain
-[github-url]:https://github.com/kei-g/wol
+[github-main-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg?branch=main
+[github-main-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml?query=branch%3Amain
+[github-repo-image]:https://img.shields.io/badge/github-kei--g%2Fwol-brightgreen?logo=github
+[github-repo-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
