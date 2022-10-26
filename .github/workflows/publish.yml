@@ -41,7 +41,13 @@ jobs:
           rm -fr /tmp/.buildx-apt-cache
           mv /tmp/.buildx-apt-cache-new /tmp/.buildx-apt-cache
       - name: Extract .deb files
-        run: docker run --pull=missing --rm ${{ env.IMAGE_NAME }}:apt sh -c 'tar -cf - *.deb' | tar -vxf -
+        run: |
+          docker run \
+              --pull=missing \
+              --rm \
+              ${{ env.IMAGE_NAME }}:apt \
+              sh -c 'tar -cf - *.deb' \
+            | tar -vxf -
       - name: Archive
         uses: actions/upload-artifact@v3
         with:
