@@ -1,4 +1,4 @@
-# wol [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
+# wol [![githuhb][github-repo-image]][github-repo-url] [![license][license-image]][license-url] [![docker][docker-image]][docker-url]
 
 `wol` - Wake-On-LAN Client
 
@@ -102,6 +102,7 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wo
 [github-main-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Amain
 [github-main-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg?branch=main
 [github-main-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml?query=branch%3Amain
-[github-url]:https://github.com/kei-g/wol
+[github-repo-image]:https://img.shields.io/badge/github-kei--g%2Fwol-brightgreen?logo=github
+[github-repo-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
 [license-url]:https://opensource.org/licenses/BSD-3-Clause
