@@ -5,6 +5,11 @@
 - feature:
   - :sparkles: Support --bind option
 - ci:
+  - :green_heart: Use $GITHUB_OUTPUT instead of $GITHUB_ENV to specify the version
+  - :green_heart: Run workflows only on 'push' or 'pull request' events for branches
+  - :green_heart: Use `kei-g/dockerhub-patch@main` to patch the description to DockerHub
+  - :green_heart: Use `docker/metadata-action@v4` to decide tags of docker image
+  - :robot: Revert target branch for Dependabot to 'main'
   - :green_heart: Explicitly specify 'load' as true at build step on MinGW workflow
   - :robot: Specify 'devel' as the target branch of Dependabot
   - :green_heart: Use $GITHUB_ENV instead of deprecated `::set-output` style
@@ -30,6 +35,7 @@
   - :green_heart: Make it possible to archive .deb packages by `actions/upload-artifact`
   - :green_heart: Modify CFLAGS and LDFLAGS
 - doc:
+  - :memo: Modify CI status badges table
   - :memo: Add a badge to link to the github repository
   - :lipstick: Remove a trailing whitespace
 - fix:
