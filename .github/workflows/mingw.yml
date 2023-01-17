@@ -34,5 +34,6 @@ name: MinGW
 on:
   push:
     branches:
-      - devel
-      - main
+      - '**'
+    tags-ignore:
+      - '**'

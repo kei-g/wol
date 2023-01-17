@@ -4,10 +4,11 @@
 
 ## CI Status
 
-| | Build | CodeQL | MinGW |
-| ---- | ---- | ---- | ---- |
-| **devel** | [![GitHub CI (Build)][github-devel-build-image]][github-devel-build-url] | [![GitHub CI (CodeQL)][github-devel-codeql-image]][github-devel-codeql-url] | [![GitHub CI (MinGW)][github-devel-mingw-image]][github-devel-mingw-url] |
-| **main** | [![GitHub CI (Build)][github-main-build-image]][github-main-build-url] | [![GitHub CI (CodeQL)][github-main-codeql-image]][github-main-codeql-url] | [![GitHub CI (MinGW)][github-main-mingw-image]][github-main-mingw-url] |
+| Workflow Name | Status |
+|-|-|
+| **Build** | [![GitHub CI (Build)][github-build-image]][github-build-url] |
+| **CodeQL** | [![GitHub CI (CodeQL)][github-codeql-image]][github-codeql-url] |
+| **MinGW** | [![GitHub CI (MinGW)][github-mingw-image]][github-mingw-url] |
 
 ## How to use
 
@@ -90,18 +91,12 @@ Contributions are welcome! See [Contributor's Guide](https://github.com/kei-g/wo
 
 [docker-image]:https://img.shields.io/docker/v/snowstep/wol?logo=docker
 [docker-url]:https://hub.docker.com/r/snowstep/wol
-[github-devel-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg?branch=devel
-[github-devel-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Adevel
-[github-devel-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=devel
-[github-devel-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Adevel
-[github-devel-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg?branch=devel
-[github-devel-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml?query=branch%3Adevel
-[github-main-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg?branch=main
-[github-main-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml?query=branch%3Amain
-[github-main-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg?branch=main
-[github-main-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml?query=branch%3Amain
-[github-main-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg?branch=main
-[github-main-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml?query=branch%3Amain
+[github-build-image]:https://github.com/kei-g/wol/actions/workflows/build.yml/badge.svg
+[github-build-url]:https://github.com/kei-g/wol/actions/workflows/build.yml
+[github-codeql-image]:https://github.com/kei-g/wol/actions/workflows/codeql.yml/badge.svg
+[github-codeql-url]:https://github.com/kei-g/wol/actions/workflows/codeql.yml
+[github-mingw-image]:https://github.com/kei-g/wol/actions/workflows/mingw.yml/badge.svg
+[github-mingw-url]:https://github.com/kei-g/wol/actions/workflows/mingw.yml
 [github-repo-image]:https://img.shields.io/badge/github-kei--g%2Fwol-brightgreen?logo=github
 [github-repo-url]:https://github.com/kei-g/wol
 [license-image]:https://img.shields.io/github/license/kei-g/wol
