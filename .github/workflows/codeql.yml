@@ -27,4 +27,10 @@ jobs:
 name: CodeQL
 on:
   pull_request:
+    branches:
+      - '**'
   push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
