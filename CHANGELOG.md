@@ -5,6 +5,7 @@
 - feature:
   - :sparkles: Support --bind option
 - ci:
+  - :green_heart: Add a job to create release on GitHub
   - :green_heart: Use $GITHUB_OUTPUT instead of $GITHUB_ENV to specify the version
   - :green_heart: Run workflows only on 'push' or 'pull request' events for branches
   - :green_heart: Use `kei-g/dockerhub-patch@main` to patch the description to DockerHub
@@ -49,6 +50,7 @@
   - :recycle: Separate a function to parse the mac address
   - :recycle: Add a struct to represent the program options
 - misc:
+  - :truck: Rename the change logs file by capitalizing
   - :wrench: Add setting files
 
 ## Version 1.1.1
