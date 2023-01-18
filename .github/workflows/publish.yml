@@ -59,7 +59,8 @@ jobs:
   docker:
     if: github.ref_type == 'tag'
     name: Docker
-    needs: apt
+    needs:
+      - apt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -132,6 +133,9 @@ jobs:
   github:
     if: github.ref_type == 'tag'
     name: Create a release on GitHub
+    needs:
+      - apt
+      - docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
