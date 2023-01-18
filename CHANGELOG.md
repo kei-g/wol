@@ -1,5 +1,14 @@
 # Change Logs
 
+## Version 1.2.1
+
+- ci:
+  - :green_heart: Add paths to ignore not to run workflows
+  - :green_heart: Ignore 'push' or 'pull_request' events to prevent running workflow 'Publish'
+  - :green_heart: Upload debian packages as assets of GitHub Release
+- doc:
+  - :memo: Explain how to run the command with specific interface
+
 ## Version 1.2.0
 
 - feature:
