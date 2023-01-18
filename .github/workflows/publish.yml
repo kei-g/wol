@@ -33,6 +33,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-apt-cache-new,mode=max
           context: .
           file: conf/apt/Dockerfile
+          load: true
           push: false
           tags: |
             ${{ env.IMAGE_NAME }}:apt
