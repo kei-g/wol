@@ -143,7 +143,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - name: Create a release
+      - id: release
+        name: Create a release
         uses: actions/github-script@v6
         with:
           script: |
@@ -202,6 +203,60 @@ jobs:
                 }
               )
             )
+      - name: Download debian packages from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}
+          path: debian-packages
+      - name: Upload debian packages as assets
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('node:fs')
+            const https = require('node:https')
+            const dir = 'debian-packages'
+            const files = fs.readdirSync(dir).filter(name => name.split('.').at(-1) === 'deb')
+            const tasks = new Array()
+            for (const name of files) {
+              const data = fs.readFileSync(`${dir}/${name}`)
+              const url = '${{ steps.release.outputs.upload_url }}'.replace(/\{\?name(\,[a-z]+)*\}/g, `?name=${name}`)
+              const request = https.request(
+                url,
+                {
+                  headers: {
+                    Accept: 'application/vnd.github+json',
+                    Authorization: 'token ${{ secrets.GITHUB_TOKEN }}',
+                    'Content-length': data.length,
+                    'Content-type': 'application/vnd.debian.binary-package',
+                    'User-agent': 'GitHub Action',
+                    'X-GitHub-Api-Version': '2022-11-28',
+                  },
+                  method: 'POST',
+                }
+              )
+              const task = new Promise(
+                resolve => request.on(
+                  'response',
+                  response => {
+                    const chunks = new Array()
+                    response.on('data', chunk => chunks.push(chunk))
+                    response.on(
+                      'end',
+                      () => {
+                        const buffer = Buffer.concat(chunks)
+                        const response = JSON.parse(buffer)
+                        resolve({ name, response })
+                      }
+                    )
+                  }
+                )
+              )
+              tasks.push(task)
+              request.write(data)
+              request.end()
+            }
+            for (const { name, response } of await Promise.all(tasks))
+              console.log({ name, response })
 name: Publish
 on:
   create:
@@ -209,3 +264,9 @@ on:
       - '**'
     tags:
       - 'v[0-9]+(\.[0-9]+){2}'
+  pull_request:
+    branches-ignore:
+      - '**'
+  push:
+    branches-ignore:
+      - '**'

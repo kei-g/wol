@@ -77,6 +77,12 @@ make install
 wol 00:00:5e:00:53:00
 ```
 
+or binding specific NIC,
+
+```shell
+wol --bind=203.0.113.193 00:00:5e:00:53:00
+```
+
 ## License
 
 The source codes and documentation in this project are released under the [BSD-3-Clause License](https://github.com/kei-g/wol/blob/main/COPYING).

@@ -35,5 +35,20 @@ on:
   push:
     branches:
       - '**'
+    paths-ignore:
+      - '*.md'
+      - '.clang-format'
+      - '.editorconfig'
+      - '.github/dependabot.yml'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/publish.yml'
+      - '.gitignore'
+      - '.vscode/'
+      - 'LICENSE'
+      - 'autotools/'
+      - 'conf/apt/'
+      - 'conf/hub/'
+      - 'conf/x86_64-w64-mingw32/'
     tags-ignore:
       - '**'

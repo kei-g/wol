@@ -29,8 +29,32 @@ on:
   pull_request:
     branches:
       - '**'
+    paths-ignore:
+      - '*.md'
+      - '.clang-format'
+      - '.editorconfig'
+      - '.github/dependabot.yml'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/mingw.yml'
+      - '.github/workflows/publish.yml'
+      - '.gitignore'
+      - '.vscode/'
+      - 'LICENSE'
+      - 'conf/'
   push:
     branches:
       - '**'
+    paths-ignore:
+      - '*.md'
+      - '.clang-format'
+      - '.editorconfig'
+      - '.github/dependabot.yml'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/mingw.yml'
+      - '.github/workflows/publish.yml'
+      - '.gitignore'
+      - '.vscode/'
+      - 'LICENSE'
+      - 'conf/'
     tags-ignore:
       - '**'
