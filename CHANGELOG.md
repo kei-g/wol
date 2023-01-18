@@ -5,6 +5,9 @@
 - feature:
   - :sparkles: Support --bind option
 - ci:
+  - :green_heart: Enclose the expression to determine whether if 'publish' workflow runs on 'create' event in quotation marks
+  - :green_heart: Modify jobs dependency of 'publish' workflow
+  - :green_heart: Specify 'true' to load the built image on 'apt' job
   - :green_heart: Add a job to create release on GitHub
   - :green_heart: Use $GITHUB_OUTPUT instead of $GITHUB_ENV to specify the version
   - :green_heart: Run workflows only on 'push' or 'pull request' events for branches
