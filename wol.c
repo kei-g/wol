@@ -30,7 +30,7 @@
   #define WSACleanup()
 #endif /* WIN32 */
 
-#define WOL_VERSION "1.2.2"
+#include "version.h"
 
 typedef struct wol_option wolopt;
 

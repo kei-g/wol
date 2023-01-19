@@ -50,5 +50,6 @@ on:
       - 'conf/apt/'
       - 'conf/hub/'
       - 'conf/x86_64-w64-mingw32/'
+      - 'version.h'
     tags-ignore:
       - '**'

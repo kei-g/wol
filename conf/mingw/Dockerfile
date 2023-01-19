@@ -6,7 +6,7 @@ RUN apt-get update \
 
 WORKDIR /root
 
-COPY wol.c ./
+COPY version.h wol.c ./
 
 ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,-s -flto -fuse-ld=lld -lws2_32 -pedantic"
 
