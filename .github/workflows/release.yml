@@ -257,7 +257,7 @@ jobs:
             }
             for (const { name, response } of await Promise.all(tasks))
               console.log({ name, response })
-name: Publish
+name: Release
 on:
   create:
     branches-ignore:
