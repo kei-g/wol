@@ -26,9 +26,11 @@
 #ifdef WIN32
   #define close closesocket
   #define perror(name) fprintf(stderr, name ": %08lx\n", GetLastError())
-#else /* WIN32 */
+#else  /* WIN32 */
   #define WSACleanup()
 #endif /* WIN32 */
+
+#define WOL_VERSION "1.2.2"
 
 typedef struct wol_option wolopt;
 
@@ -109,6 +111,10 @@ static bool parse_opts(int argc, char *argv[], wolopt *opt) {
       }
       if (!parse_bindaddr(val && *val ? val : argv[i], &opt->bindaddr))
         return false;
+    }
+    else if (strcmp(key, "--version") == 0) {
+      puts("wol version " WOL_VERSION);
+      return false;
     }
     else
       return parse_macaddr(argv[i], opt->macaddr);
