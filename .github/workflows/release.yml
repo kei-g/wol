@@ -62,6 +62,7 @@ jobs:
     name: Docker
     needs:
       - apt
+      - mingw
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
