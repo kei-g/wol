@@ -1,6 +1,6 @@
 FROM snowstep/llvm:latest AS builder
 
-COPY wol.c /
+COPY version.h wol.c /
 
 RUN clang \
     -Oz \

@@ -8,7 +8,7 @@ RUN apt-get update \
 
 WORKDIR /root
 
-COPY conf/apt/control wol.c ./
+COPY conf/apt/control version.h wol.c ./
 
 ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,-s -flto -fno-plt -fuse-ld=lld"
 

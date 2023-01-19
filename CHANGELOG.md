@@ -1,5 +1,12 @@
 # Change Logs
 
+## Version 1.2.3
+
+- ci:
+  - :green_heart: Fix uploadAsync to return a Promise
+- refactor:
+  - :recycle: Separate the version to header file
+
 ## Version 1.2.2
 
 - feature:
