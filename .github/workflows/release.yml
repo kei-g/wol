@@ -255,9 +255,9 @@ jobs:
                   }
                 )
               )
-              tasks.push(task)
               request.write(data)
               request.end()
+              return task
             }
             const tasks = [
               { dir: 'debian-packages', ext: 'deb', mime: 'vnd.debian.binary-package' },
