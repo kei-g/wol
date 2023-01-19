@@ -1,35 +1,109 @@
 jobs:
-  mingw:
+  build:
     if: github.ref_type == 'branch'
-    name: Cross Compile for MinGW
+    container:
+      image: snowstep/cross-debian@${{ needs.digest.outputs.cross-debian }}
+    needs:
+      - digest
+      - version
+    name: Cross Build for MinGW/${{ matrix.arch }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-buildx-mingw-${{ github.sha }}
-          path: /tmp/.buildx-mingw-cache
-          restore-keys: |
-            ${{ runner.os }}-buildx-mingw-
-      - name: Build
-        uses: docker/build-push-action@v3
-        with:
-          cache-from: type=local,src=/tmp/.buildx-mingw-cache
-          cache-to: type=local,dest=/tmp/.buildx-mingw-cache-new,mode=max
-          context: .
-          file: conf/mingw/Dockerfile
-          load: true
-          push: false
-      - name: Move cache
+      - name: Build for MinGW/${{ matrix.arch }}
         run: |
-          rm -fr /tmp/.buildx-mingw-cache
-          mv /tmp/.buildx-mingw-cache-new /tmp/.buildx-mingw-cache
+          clang \
+            --target=${{ matrix.arch }}-w64-mingw32 \
+            -L/usr/lib/gcc/${{ matrix.arch }}-w64-mingw32/10-win32 \
+            -Ofast \
+            -Wall \
+            -Werror \
+            -Wextra \
+            -Wl,-s \
+            -flto \
+            -fuse-ld=lld \
+            -lws2_32 \
+            -pedantic \
+            -o wol-${{ steps.version.outputs.full }}-${{ matrix.arch }}.exe \
+            wol.c
+      - name: Upload built binary as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mingw-${{ matrix.arch }}
+          path: |
+            wol-${{ needs.version.outputs.full }}-${{ matrix.arch }}.exe
+    strategy:
+      matrix:
+        arch:
+          - i686
+          - x86_64
+  cache:
+    if: github.ref_type == 'branch'
+    name: Save the built binaries to the cache
+    needs:
+      - build
+      - version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download the 32bit binary from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: mingw-i686
+          path: |
+            wol-${{ needs.version.outputs.full }}-i686.exe
+      - name: Download the 64bit binary
+        uses: actions/download-artifact@v3
+        with:
+          name: mingw-x86_64
+          path: |
+            wol-${{ needs.version.outputs.full }}-x86_64.exe
+      - name: Create a tarball of the built binaries
+        run: |
+          tar \
+            -cf \
+            wol-${{ needs.version.outputs.full }}-mingw.tar \
+            wol-${{ needs.version.outputs.full }}-{i686,x86_64}.exe
+        shell: bash
+      - name: Save the built binaries to the cache
+        uses: actions/cache/save@v3
+        with:
+          key: wol-${{ needs.version.outputs.full }}-mingw
+          path: |
+            wol-${{ needs.version.outputs.full }}-mingw.tar
+  digest:
+    if: github.ref_type == 'branch'
+    name: Acquire digest of the latest docker images
+    outputs:
+      cross-debian: ${{ steps.cross-debian.outputs.digest }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: cross-debian
+        name: Acquire digest of the latest snowstep/cross-debian
+        run: |
+          api=https://hub.docker.com/v2/namespaces/snowstep/repositories
+          digest=$(curl -s $api/cross-debian/tags | jq -cr '[.results[]|select(.name=="latest").images[]]|max_by(.lash_pushed).digest')
+          printf 'digest=%s\n' $digest | tee -a $GITHUB_OUTPUT
+  version:
+    if: github.ref_type == 'branch'
+    name: Get the version from 'version.h'
+    outputs:
+      full: ${{ steps.version.outputs.full }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - id: version
+        name: Read the version from 'version.h'
+        run: |
+          printf 'full=%s\n' \
+              $(grep -P '(?<=WOL_VERSION\s\")[0-9]+(\.[0-9]+)+(?=\")' -o version.h) \
+            | tee -a $GITHUB_OUTPUT
+        shell: bash
 name: MinGW
 on:
   push:
@@ -47,9 +121,7 @@ on:
       - '.vscode/'
       - 'LICENSE'
       - 'autotools/'
-      - 'conf/apt/'
-      - 'conf/hub/'
-      - 'conf/x86_64-w64-mingw32/'
+      - 'conf/'
       - 'version.h'
     tags-ignore:
       - '**'
