@@ -5,6 +5,7 @@
 - feature:
   - :sparkles: Support --version option
 - ci:
+  - :green_heart: Specify 'key' to restore docker layers from the cache
   - :green_heart: Upload MinGW binaries as assets of GitHub Release
   - :green_heart: Rename 'Publish' workflow to 'Release'
 
