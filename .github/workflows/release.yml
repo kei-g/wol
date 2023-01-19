@@ -62,6 +62,7 @@ jobs:
     name: Docker
     needs:
       - apt
+      - mingw
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -301,7 +302,7 @@ jobs:
           docker run \
               --rm \
               ${{ env.IMAGE_NAME }}:mingw \
-              sh -c 'tar -cf - {i686,x86_64}/wol.exe' \
+              bash -c 'tar -cf - {i686,x86_64}/wol.exe' \
             | tar -vxf -
           ref=${{ github.ref }}
           version=${ref#refs/tags/v}
