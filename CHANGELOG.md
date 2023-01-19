@@ -1,5 +1,13 @@
 # Change Logs
 
+## Version 1.2.2
+
+- feature:
+  - :sparkles: Support --version option
+- ci:
+  - :green_heart: Upload MinGW binaries as assets of GitHub Release
+  - :green_heart: Rename 'Publish' workflow to 'Release'
+
 ## Version 1.2.1
 
 - ci:

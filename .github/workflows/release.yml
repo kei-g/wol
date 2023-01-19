@@ -137,6 +137,7 @@ jobs:
     needs:
       - apt
       - docker
+      - mingw
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -208,16 +209,18 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}
           path: debian-packages
-      - name: Upload debian packages as assets
+      - name: Download MinGW binaries from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: mingw-binaries
+          path: mingw-binaries
+      - name: Upload debian packages and MinGW binaries as assets
         uses: actions/github-script@v6
         with:
           script: |
             const fs = require('node:fs')
             const https = require('node:https')
-            const dir = 'debian-packages'
-            const files = fs.readdirSync(dir).filter(name => name.split('.').at(-1) === 'deb')
-            const tasks = new Array()
-            for (const name of files) {
+            const uploadAsync = (dir, name, contentType) => {
               const data = fs.readFileSync(`${dir}/${name}`)
               const url = '${{ steps.release.outputs.upload_url }}'.replace(/\{\?name(\,[a-z]+)*\}/g, `?name=${name}`)
               const request = https.request(
@@ -255,8 +258,62 @@ jobs:
               request.write(data)
               request.end()
             }
+            const tasks = [
+              { dir: 'debian-packages', ext: 'deb', mime: 'vnd.debian.binary-package' },
+              { dir: 'mingw-binaries', ext: 'exe', mime: 'exe' },
+            ].map(
+              source => fs.readdirSync(source.dir).filter(
+                name => name.split('.').at(-1) === source.ext
+              ).map(
+                name => uploadAsync(source.dir, name, `application/${source.mime}`)
+              )
+            ).flat()
             for (const { name, response } of await Promise.all(tasks))
               console.log({ name, response })
+  mingw:
+    if: github.ref_type == 'tag'
+    name: MinGW
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Restore docker layers from the cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-mingw-cache
+          restore-keys: |
+            ${{ runner.os }}-buildx-mingw-
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          cache-from: type=local,src=/tmp/.buildx-mingw-cache
+          context: .
+          file: conf/mingw/Dockerfile
+          load: true
+          push: false
+          tags: |
+            ${{ env.IMAGE_NAME }}:mingw
+      - name: Extract binaries
+        run: |
+          docker run \
+              --rm \
+              ${{ env.IMAGE_NAME }}:mingw \
+              sh -c 'tar -cf - {i686,x86_64}/wol.exe' \
+            | tar -vxf -
+          ref=${{ github.ref }}
+          version=${ref#refs/tags/v}
+          for arch in i686 x86_64; do
+            mv $arch/wol.exe wol-${version}-${arch}.exe
+          done
+        shell: bash
+      - name: Upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: mingw-binaries
+          path: |
+            wol-*.exe
 name: Release
 on:
   create:
