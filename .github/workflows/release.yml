@@ -107,28 +107,10 @@ jobs:
         run: |
           rm -fr /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-      - id: overview
-        name: Load README.md
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('node:fs')
-            fs.readFile(
-              'README.md',
-              {},
-              (error, data) => {
-                if (error)
-                  core.setFailed(error.message)
-                else
-                  core.setOutput('content', data.toString())
-              }
-            )
       - name: Patch the description to Docker Hub
         uses: kei-g/dockerhub-patch@main
         with:
           description: Wake-On-LAN Client
-          overview: |
-            ${{ steps.overview.outputs.content }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repo: ${{ github.event.repository.name }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
