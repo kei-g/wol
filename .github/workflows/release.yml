@@ -152,7 +152,7 @@ jobs:
                     Accept: 'application/vnd.github+json',
                     Authorization: 'token ${{ secrets.GITHUB_TOKEN }}',
                     'Content-length': data.length,
-                    'Content-type': 'application/vnd.debian.binary-package',
+                    'Content-type': contentType,
                     'User-agent': 'GitHub Action',
                     'X-GitHub-Api-Version': '2022-11-28',
                   },
