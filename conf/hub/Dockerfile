@@ -7,11 +7,14 @@ RUN clang \
     -Wall \
     -Werror \
     -Wextra \
+    -Wl,--lto-O3 \
     -Wl,-s \
     -flto \
     -fno-plt \
     -fuse-ld=lld \
     -o wol \
+    -pedantic \
+    -std=c2x \
     wol.c
 
 FROM busybox:glibc

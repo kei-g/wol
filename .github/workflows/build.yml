@@ -61,7 +61,12 @@ jobs:
         run: |
           mkdir -pv build
           cd build
-          ../autotools/configure --disable-dependency-tracking CC=clang CFLAGS="-Oz -Wall -Werror -Wextra -flto -fno-plt" LD=clang LDFLAGS="-Wl,-s -flto -fno-plt -fuse-ld=lld"
+          ../autotools/configure \
+            --disable-dependency-tracking \
+            CC=clang \
+            CFLAGS="-Oz -Wall -Werror -Wextra -flto -fno-plt -pedantic -std=c2x" \
+            LD=clang \
+            LDFLAGS="-Wl,--lto-O3 -Wl,-s -flto -fno-plt -fuse-ld=lld"
       - name: Run make
         run: |
           cd build

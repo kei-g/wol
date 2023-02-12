@@ -22,12 +22,14 @@ jobs:
             -Wall \
             -Werror \
             -Wextra \
+            -Wl,--lto-O3 \
             -Wl,-s \
             -flto \
             -fuse-ld=lld \
             -lws2_32 \
-            -pedantic \
             -o wol-${{ steps.version.outputs.full }}-${{ matrix.arch }}.exe \
+            -pedantic \
+            -std=c2x \
             wol.c
       - name: Upload built binary as an artifact
         uses: actions/upload-artifact@v3

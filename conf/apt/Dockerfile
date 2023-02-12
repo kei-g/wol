@@ -10,7 +10,7 @@ WORKDIR /root
 
 COPY conf/apt/control version.h wol.c ./
 
-ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,-s -flto -fno-plt -fuse-ld=lld"
+ARG CFLAGS="-Oz -Wall -Werror -Wextra -Wl,--lto-O3 -Wl,-s -flto -fno-plt -fuse-ld=lld -pedantic -std=c2x"
 
 RUN dest=wol_${VERSION}_amd64 \
   && mkdir -p $dest/DEBIAN $dest/usr/local/bin \
