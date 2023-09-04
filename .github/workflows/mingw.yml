@@ -27,7 +27,7 @@ jobs:
             -flto \
             -fuse-ld=lld \
             -lws2_32 \
-            -o wol-${{ steps.version.outputs.full }}-${{ matrix.arch }}.exe \
+            -o wol-${{ needs.version.outputs.full }}-${{ matrix.arch }}.exe \
             -pedantic \
             -std=c2x \
             wol.c
