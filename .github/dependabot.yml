@@ -5,5 +5,4 @@ updates:
     schedule:
       interval: daily
     target-branch: main
-    versioning-strategy: increase
 version: 2
