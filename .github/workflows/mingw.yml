@@ -86,7 +86,7 @@ jobs:
         name: Acquire digest of the latest snowstep/cross-debian
         run: |
           api=https://hub.docker.com/v2/namespaces/snowstep/repositories
-          digest=$(curl -s $api/cross-debian/tags | jq -cr '[.results[]|select(.name=="latest").images[]]|max_by(.lash_pushed).digest')
+          digest=$(curl -s $api/cross-debian/tags | jq -cr '[.results[]|select(.name=="latest").images[]|select(.architecture=="amd64")]|max_by(.lash_pushed).digest')
           printf 'digest=%s\n' $digest | tee -a $GITHUB_OUTPUT
   version:
     if: github.ref_type == 'branch'
