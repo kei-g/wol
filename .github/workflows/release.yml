@@ -71,7 +71,7 @@ jobs:
           fetch-depth: 1
       - id: metadata
         name: Get the version
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
